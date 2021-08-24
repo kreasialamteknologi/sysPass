@@ -16,6 +16,948 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `Account`
+--
+
+DROP TABLE IF EXISTS `Account`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Account` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `userGroupId` smallint(5) unsigned NOT NULL,
+  `userId` smallint(5) unsigned NOT NULL,
+  `userEditId` smallint(5) unsigned NOT NULL,
+  `clientId` mediumint(8) unsigned NOT NULL,
+  `name` varchar(100) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `categoryId` mediumint(8) unsigned NOT NULL,
+  `login` varchar(50) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `url` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `pass` varbinary(2000) NOT NULL,
+  `key` varbinary(2000) NOT NULL,
+  `notes` text COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `countView` int(10) unsigned NOT NULL DEFAULT 0,
+  `countDecrypt` int(10) unsigned NOT NULL DEFAULT 0,
+  `dateAdd` datetime NOT NULL,
+  `dateEdit` datetime DEFAULT NULL,
+  `otherUserGroupEdit` tinyint(1) DEFAULT 0,
+  `otherUserEdit` tinyint(1) DEFAULT 0,
+  `isPrivate` tinyint(1) DEFAULT 0,
+  `isPrivateGroup` tinyint(1) DEFAULT 0,
+  `passDate` int(11) unsigned DEFAULT NULL,
+  `passDateChange` int(11) unsigned DEFAULT NULL,
+  `parentId` mediumint(8) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_Account_01` (`categoryId`),
+  KEY `idx_Account_02` (`userGroupId`,`userId`),
+  KEY `idx_Account_03` (`clientId`),
+  KEY `idx_Account_04` (`parentId`),
+  KEY `fk_Account_userId` (`userId`),
+  KEY `fk_Account_userEditId` (`userEditId`),
+  CONSTRAINT `fk_Account_categoryId` FOREIGN KEY (`categoryId`) REFERENCES `Category` (`id`),
+  CONSTRAINT `fk_Account_clientId` FOREIGN KEY (`clientId`) REFERENCES `Client` (`id`),
+  CONSTRAINT `fk_Account_userEditId` FOREIGN KEY (`userEditId`) REFERENCES `User` (`id`),
+  CONSTRAINT `fk_Account_userGroupId` FOREIGN KEY (`userGroupId`) REFERENCES `UserGroup` (`id`),
+  CONSTRAINT `fk_Account_userId` FOREIGN KEY (`userId`) REFERENCES `User` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Account`
+--
+
+LOCK TABLES `Account` WRITE;
+/*!40000 ALTER TABLE `Account` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Account` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AccountFile`
+--
+
+DROP TABLE IF EXISTS `AccountFile`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AccountFile` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `accountId` mediumint(5) unsigned NOT NULL,
+  `name` varchar(100) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `type` varchar(100) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `size` int(11) NOT NULL,
+  `content` mediumblob NOT NULL,
+  `extension` varchar(10) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `thumb` mediumblob DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_AccountFile_01` (`accountId`),
+  CONSTRAINT `fk_AccountFile_accountId` FOREIGN KEY (`accountId`) REFERENCES `Account` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AccountFile`
+--
+
+LOCK TABLES `AccountFile` WRITE;
+/*!40000 ALTER TABLE `AccountFile` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AccountFile` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AccountHistory`
+--
+
+DROP TABLE IF EXISTS `AccountHistory`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AccountHistory` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `accountId` mediumint(8) unsigned NOT NULL,
+  `userGroupId` smallint(5) unsigned NOT NULL,
+  `userId` smallint(5) unsigned NOT NULL,
+  `userEditId` smallint(5) unsigned NOT NULL,
+  `clientId` mediumint(8) unsigned NOT NULL,
+  `name` varchar(255) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `categoryId` mediumint(8) unsigned NOT NULL,
+  `login` varchar(50) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `url` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `pass` varbinary(2000) NOT NULL,
+  `key` varbinary(2000) NOT NULL,
+  `notes` text COLLATE utf8mb3_unicode_ci NOT NULL,
+  `countView` int(10) unsigned NOT NULL DEFAULT 0,
+  `countDecrypt` int(10) unsigned NOT NULL DEFAULT 0,
+  `dateAdd` datetime NOT NULL,
+  `dateEdit` datetime DEFAULT NULL,
+  `isModify` tinyint(1) DEFAULT 0,
+  `isDeleted` tinyint(1) DEFAULT 0,
+  `mPassHash` varbinary(255) NOT NULL,
+  `otherUserEdit` tinyint(1) DEFAULT 0,
+  `otherUserGroupEdit` tinyint(1) DEFAULT 0,
+  `passDate` int(10) unsigned DEFAULT NULL,
+  `passDateChange` int(10) unsigned DEFAULT NULL,
+  `parentId` mediumint(8) unsigned DEFAULT NULL,
+  `isPrivate` tinyint(1) DEFAULT 0,
+  `isPrivateGroup` tinyint(1) DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `idx_AccountHistory_01` (`accountId`),
+  KEY `idx_AccountHistory_02` (`parentId`),
+  KEY `fk_AccountHistory_userGroupId` (`userGroupId`),
+  KEY `fk_AccountHistory_userId` (`userId`),
+  KEY `fk_AccountHistory_userEditId` (`userEditId`),
+  KEY `fk_AccountHistory_clientId` (`clientId`),
+  KEY `fk_AccountHistory_categoryId` (`categoryId`),
+  CONSTRAINT `fk_AccountHistory_categoryId` FOREIGN KEY (`categoryId`) REFERENCES `Category` (`id`),
+  CONSTRAINT `fk_AccountHistory_clientId` FOREIGN KEY (`clientId`) REFERENCES `Client` (`id`),
+  CONSTRAINT `fk_AccountHistory_userEditId` FOREIGN KEY (`userEditId`) REFERENCES `User` (`id`),
+  CONSTRAINT `fk_AccountHistory_userGroupId` FOREIGN KEY (`userGroupId`) REFERENCES `UserGroup` (`id`),
+  CONSTRAINT `fk_AccountHistory_userId` FOREIGN KEY (`userId`) REFERENCES `User` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AccountHistory`
+--
+
+LOCK TABLES `AccountHistory` WRITE;
+/*!40000 ALTER TABLE `AccountHistory` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AccountHistory` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AccountToFavorite`
+--
+
+DROP TABLE IF EXISTS `AccountToFavorite`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AccountToFavorite` (
+  `accountId` mediumint(8) unsigned NOT NULL,
+  `userId` smallint(5) unsigned NOT NULL,
+  PRIMARY KEY (`accountId`,`userId`),
+  KEY `idx_AccountToFavorite_01` (`accountId`,`userId`),
+  KEY `fk_AccountToFavorite_userId` (`userId`),
+  CONSTRAINT `fk_AccountToFavorite_accountId` FOREIGN KEY (`accountId`) REFERENCES `Account` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_AccountToFavorite_userId` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AccountToFavorite`
+--
+
+LOCK TABLES `AccountToFavorite` WRITE;
+/*!40000 ALTER TABLE `AccountToFavorite` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AccountToFavorite` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AccountToTag`
+--
+
+DROP TABLE IF EXISTS `AccountToTag`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AccountToTag` (
+  `accountId` mediumint(8) unsigned NOT NULL,
+  `tagId` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`accountId`,`tagId`),
+  KEY `fk_AccountToTag_accountId` (`accountId`),
+  KEY `fk_AccountToTag_tagId` (`tagId`),
+  CONSTRAINT `fk_AccountToTag_accountId` FOREIGN KEY (`accountId`) REFERENCES `Account` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_AccountToTag_tagId` FOREIGN KEY (`tagId`) REFERENCES `Tag` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AccountToTag`
+--
+
+LOCK TABLES `AccountToTag` WRITE;
+/*!40000 ALTER TABLE `AccountToTag` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AccountToTag` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AccountToUser`
+--
+
+DROP TABLE IF EXISTS `AccountToUser`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AccountToUser` (
+  `accountId` mediumint(8) unsigned NOT NULL,
+  `userId` smallint(5) unsigned NOT NULL,
+  `isEdit` tinyint(1) unsigned DEFAULT 0,
+  PRIMARY KEY (`accountId`,`userId`),
+  KEY `idx_AccountToUser_01` (`accountId`),
+  KEY `fk_AccountToUser_userId` (`userId`),
+  CONSTRAINT `fk_AccountToUser_accountId` FOREIGN KEY (`accountId`) REFERENCES `Account` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_AccountToUser_userId` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AccountToUser`
+--
+
+LOCK TABLES `AccountToUser` WRITE;
+/*!40000 ALTER TABLE `AccountToUser` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AccountToUser` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AccountToUserGroup`
+--
+
+DROP TABLE IF EXISTS `AccountToUserGroup`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AccountToUserGroup` (
+  `accountId` mediumint(8) unsigned NOT NULL,
+  `userGroupId` smallint(5) unsigned NOT NULL,
+  `isEdit` tinyint(1) unsigned DEFAULT 0,
+  PRIMARY KEY (`accountId`,`userGroupId`),
+  KEY `idx_AccountToUserGroup_01` (`accountId`),
+  KEY `fk_AccountToUserGroup_userGroupId` (`userGroupId`),
+  CONSTRAINT `fk_AccountToUserGroup_accountId` FOREIGN KEY (`accountId`) REFERENCES `Account` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_AccountToUserGroup_userGroupId` FOREIGN KEY (`userGroupId`) REFERENCES `UserGroup` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AccountToUserGroup`
+--
+
+LOCK TABLES `AccountToUserGroup` WRITE;
+/*!40000 ALTER TABLE `AccountToUserGroup` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AccountToUserGroup` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `AuthToken`
+--
+
+DROP TABLE IF EXISTS `AuthToken`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `AuthToken` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` smallint(5) unsigned NOT NULL,
+  `token` varbinary(255) NOT NULL,
+  `actionId` smallint(5) unsigned NOT NULL,
+  `createdBy` smallint(5) unsigned NOT NULL,
+  `startDate` int(10) unsigned NOT NULL,
+  `vault` varbinary(2000) DEFAULT NULL,
+  `hash` varbinary(500) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_AuthToken_01` (`token`,`actionId`),
+  KEY `idx_AuthToken_01` (`userId`,`actionId`,`token`),
+  KEY `fk_AuthToken_actionId` (`actionId`),
+  CONSTRAINT `fk_AuthToken_userId` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `AuthToken`
+--
+
+LOCK TABLES `AuthToken` WRITE;
+/*!40000 ALTER TABLE `AuthToken` DISABLE KEYS */;
+/*!40000 ALTER TABLE `AuthToken` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Category`
+--
+
+DROP TABLE IF EXISTS `Category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Category` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `hash` varbinary(40) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_Category_01` (`hash`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Category`
+--
+
+LOCK TABLES `Category` WRITE;
+/*!40000 ALTER TABLE `Category` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Client`
+--
+
+DROP TABLE IF EXISTS `Client`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Client` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `hash` varbinary(40) NOT NULL,
+  `description` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `isGlobal` tinyint(1) DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `uk_Client_01` (`hash`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Client`
+--
+
+LOCK TABLES `Client` WRITE;
+/*!40000 ALTER TABLE `Client` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Client` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Config`
+--
+
+DROP TABLE IF EXISTS `Config`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Config` (
+  `parameter` varchar(50) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `value` varchar(4000) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`parameter`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Config`
+--
+
+LOCK TABLES `Config` WRITE;
+/*!40000 ALTER TABLE `Config` DISABLE KEYS */;
+INSERT INTO `Config` VALUES ('lastupdatempass','1629796996'),('masterPwd','$2y$10$JuA5gSGX4hDk/hqNOPTWceKoTeaXvfljdfSTsWUm8DrqIMZ6Kv0f.'),('version','322.21031301');
+/*!40000 ALTER TABLE `Config` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `CustomFieldData`
+--
+
+DROP TABLE IF EXISTS `CustomFieldData`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `CustomFieldData` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `moduleId` smallint(5) unsigned NOT NULL,
+  `itemId` int(10) unsigned NOT NULL,
+  `definitionId` int(10) unsigned NOT NULL,
+  `data` longblob DEFAULT NULL,
+  `key` varbinary(2000) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_CustomFieldData_01` (`definitionId`),
+  KEY `idx_CustomFieldData_02` (`itemId`,`moduleId`),
+  KEY `idx_CustomFieldData_03` (`moduleId`),
+  KEY `uk_CustomFieldData_01` (`moduleId`,`itemId`,`definitionId`),
+  CONSTRAINT `fk_CustomFieldData_definitionId` FOREIGN KEY (`definitionId`) REFERENCES `CustomFieldDefinition` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CustomFieldData`
+--
+
+LOCK TABLES `CustomFieldData` WRITE;
+/*!40000 ALTER TABLE `CustomFieldData` DISABLE KEYS */;
+/*!40000 ALTER TABLE `CustomFieldData` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `CustomFieldDefinition`
+--
+
+DROP TABLE IF EXISTS `CustomFieldDefinition`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `CustomFieldDefinition` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `moduleId` smallint(5) unsigned NOT NULL,
+  `required` tinyint(1) unsigned DEFAULT NULL,
+  `help` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `showInList` tinyint(1) unsigned DEFAULT NULL,
+  `typeId` tinyint(3) unsigned NOT NULL,
+  `isEncrypted` tinyint(1) unsigned DEFAULT 1,
+  PRIMARY KEY (`id`),
+  KEY `fk_CustomFieldDefinition_typeId` (`typeId`),
+  CONSTRAINT `fk_CustomFieldDefinition_typeId` FOREIGN KEY (`typeId`) REFERENCES `CustomFieldType` (`id`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CustomFieldDefinition`
+--
+
+LOCK TABLES `CustomFieldDefinition` WRITE;
+/*!40000 ALTER TABLE `CustomFieldDefinition` DISABLE KEYS */;
+/*!40000 ALTER TABLE `CustomFieldDefinition` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `CustomFieldType`
+--
+
+DROP TABLE IF EXISTS `CustomFieldType`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `CustomFieldType` (
+  `id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `text` varchar(50) COLLATE utf8mb3_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_CustomFieldType_01` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `CustomFieldType`
+--
+
+LOCK TABLES `CustomFieldType` WRITE;
+/*!40000 ALTER TABLE `CustomFieldType` DISABLE KEYS */;
+INSERT INTO `CustomFieldType` VALUES (1,'text','Text'),(2,'password','Password'),(3,'date','Date'),(4,'number','Number'),(5,'email','Email'),(6,'telephone','Phone'),(7,'url','URL'),(8,'color','Color'),(9,'wiki','Wiki'),(10,'textarea','Text Area');
+/*!40000 ALTER TABLE `CustomFieldType` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `EventLog`
+--
+
+DROP TABLE IF EXISTS `EventLog`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `EventLog` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `date` int(10) unsigned NOT NULL,
+  `login` varchar(25) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `userId` smallint(5) unsigned DEFAULT NULL,
+  `ipAddress` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `action` varchar(50) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `level` varchar(20) COLLATE utf8mb3_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `EventLog`
+--
+
+LOCK TABLES `EventLog` WRITE;
+/*!40000 ALTER TABLE `EventLog` DISABLE KEYS */;
+/*!40000 ALTER TABLE `EventLog` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ItemPreset`
+--
+
+DROP TABLE IF EXISTS `ItemPreset`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ItemPreset` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(25) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `userId` smallint(5) unsigned DEFAULT NULL,
+  `userGroupId` smallint(5) unsigned DEFAULT NULL,
+  `userProfileId` smallint(5) unsigned DEFAULT NULL,
+  `fixed` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `priority` tinyint(3) unsigned NOT NULL DEFAULT 0,
+  `data` blob DEFAULT NULL,
+  `hash` varbinary(40) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_ItemPreset_01` (`hash`),
+  KEY `fk_ItemPreset_userId` (`userId`),
+  KEY `fk_ItemPreset_userGroupId` (`userGroupId`),
+  KEY `fk_ItemPreset_userProfileId` (`userProfileId`),
+  CONSTRAINT `fk_ItemPreset_userGroupId` FOREIGN KEY (`userGroupId`) REFERENCES `UserGroup` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_ItemPreset_userId` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_ItemPreset_userProfileId` FOREIGN KEY (`userProfileId`) REFERENCES `UserProfile` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ItemPreset`
+--
+
+LOCK TABLES `ItemPreset` WRITE;
+/*!40000 ALTER TABLE `ItemPreset` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ItemPreset` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Notification`
+--
+
+DROP TABLE IF EXISTS `Notification`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Notification` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `type` varchar(100) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `component` varchar(100) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb3_unicode_ci NOT NULL,
+  `date` int(10) unsigned NOT NULL,
+  `checked` tinyint(1) DEFAULT 0,
+  `userId` smallint(5) unsigned DEFAULT NULL,
+  `sticky` tinyint(1) DEFAULT 0,
+  `onlyAdmin` tinyint(1) DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `idx_Notification_01` (`userId`,`checked`,`date`),
+  KEY `idx_Notification_02` (`component`,`date`,`checked`,`userId`),
+  KEY `fk_Notification_userId` (`userId`),
+  CONSTRAINT `fk_Notification_userId` FOREIGN KEY (`userId`) REFERENCES `User` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Notification`
+--
+
+LOCK TABLES `Notification` WRITE;
+/*!40000 ALTER TABLE `Notification` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Notification` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Plugin`
+--
+
+DROP TABLE IF EXISTS `Plugin`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Plugin` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `data` mediumblob DEFAULT NULL,
+  `enabled` tinyint(1) NOT NULL DEFAULT 0,
+  `available` tinyint(1) DEFAULT 0,
+  `versionLevel` varchar(15) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_Plugin_01` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Plugin`
+--
+
+LOCK TABLES `Plugin` WRITE;
+/*!40000 ALTER TABLE `Plugin` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Plugin` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `PluginData`
+--
+
+DROP TABLE IF EXISTS `PluginData`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `PluginData` (
+  `name` varchar(100) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `itemId` int(11) NOT NULL,
+  `data` blob NOT NULL,
+  `key` varbinary(2000) NOT NULL,
+  PRIMARY KEY (`name`,`itemId`),
+  CONSTRAINT `fk_PluginData_name` FOREIGN KEY (`name`) REFERENCES `Plugin` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PluginData`
+--
+
+LOCK TABLES `PluginData` WRITE;
+/*!40000 ALTER TABLE `PluginData` DISABLE KEYS */;
+/*!40000 ALTER TABLE `PluginData` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `PublicLink`
+--
+
+DROP TABLE IF EXISTS `PublicLink`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `PublicLink` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `itemId` int(10) unsigned NOT NULL,
+  `hash` varbinary(100) NOT NULL,
+  `data` mediumblob DEFAULT NULL,
+  `userId` smallint(5) unsigned NOT NULL,
+  `typeId` int(10) unsigned NOT NULL,
+  `notify` tinyint(1) DEFAULT 0,
+  `dateAdd` int(10) unsigned NOT NULL,
+  `dateExpire` int(10) unsigned NOT NULL,
+  `dateUpdate` int(10) unsigned DEFAULT 0,
+  `countViews` smallint(5) unsigned DEFAULT 0,
+  `totalCountViews` mediumint(8) unsigned DEFAULT 0,
+  `maxCountViews` smallint(5) unsigned NOT NULL DEFAULT 0,
+  `useinfo` blob DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_PublicLink_01` (`hash`),
+  UNIQUE KEY `uk_PublicLink_02` (`itemId`),
+  KEY `fk_PublicLink_userId` (`userId`),
+  CONSTRAINT `fk_PublicLink_userId` FOREIGN KEY (`userId`) REFERENCES `User` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PublicLink`
+--
+
+LOCK TABLES `PublicLink` WRITE;
+/*!40000 ALTER TABLE `PublicLink` DISABLE KEYS */;
+/*!40000 ALTER TABLE `PublicLink` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Tag`
+--
+
+DROP TABLE IF EXISTS `Tag`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Tag` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `hash` varbinary(40) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_Tag_01` (`hash`),
+  KEY `idx_Tag_01` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Tag`
+--
+
+LOCK TABLES `Tag` WRITE;
+/*!40000 ALTER TABLE `Tag` DISABLE KEYS */;
+/*!40000 ALTER TABLE `Tag` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Track`
+--
+
+DROP TABLE IF EXISTS `Track`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Track` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `userId` smallint(5) unsigned DEFAULT NULL,
+  `source` varchar(100) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `time` int(10) unsigned NOT NULL,
+  `timeUnlock` int(10) unsigned DEFAULT NULL,
+  `ipv4` binary(4) DEFAULT NULL,
+  `ipv6` binary(16) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_Track_01` (`userId`),
+  KEY `idx_Track_02` (`time`,`ipv4`,`ipv6`,`source`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Track`
+--
+
+LOCK TABLES `Track` WRITE;
+/*!40000 ALTER TABLE `Track` DISABLE KEYS */;
+INSERT INTO `Track` VALUES (1,NULL,'SP\\Services\\Auth\\LoginService',1629797009,NULL,'ÊPÔ6',NULL),(2,NULL,'SP\\Services\\Auth\\LoginService',1629797019,NULL,'ÊPÔ6',NULL),(3,NULL,'SP\\Services\\Auth\\LoginService',1629797025,NULL,'ÊPÔ6',NULL);
+/*!40000 ALTER TABLE `Track` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `User`
+--
+
+DROP TABLE IF EXISTS `User`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `User` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(80) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `userGroupId` smallint(5) unsigned NOT NULL,
+  `login` varchar(50) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `ssoLogin` varchar(100) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `pass` varbinary(500) NOT NULL,
+  `mPass` varbinary(2000) DEFAULT NULL,
+  `mKey` varbinary(2000) DEFAULT NULL,
+  `email` varchar(80) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `notes` text COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `loginCount` int(10) unsigned NOT NULL DEFAULT 0,
+  `userProfileId` smallint(5) unsigned NOT NULL,
+  `lastLogin` datetime DEFAULT NULL,
+  `lastUpdate` datetime DEFAULT NULL,
+  `lastUpdateMPass` int(11) unsigned NOT NULL DEFAULT 0,
+  `isAdminApp` tinyint(1) DEFAULT 0,
+  `isAdminAcc` tinyint(1) DEFAULT 0,
+  `isLdap` tinyint(1) DEFAULT 0,
+  `isDisabled` tinyint(1) DEFAULT 0,
+  `hashSalt` varbinary(255) NOT NULL,
+  `isMigrate` tinyint(1) DEFAULT 0,
+  `isChangePass` tinyint(1) DEFAULT 0,
+  `isChangedPass` tinyint(1) DEFAULT 0,
+  `preferences` blob DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_User_01` (`login`,`ssoLogin`),
+  KEY `idx_User_01` (`pass`),
+  KEY `fk_User_userGroupId` (`userGroupId`),
+  KEY `fk_User_userProfileId` (`userProfileId`),
+  CONSTRAINT `fk_User_userGroupId` FOREIGN KEY (`userGroupId`) REFERENCES `UserGroup` (`id`),
+  CONSTRAINT `fk_User_userProfileId` FOREIGN KEY (`userProfileId`) REFERENCES `UserProfile` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `User`
+--
+
+LOCK TABLES `User` WRITE;
+/*!40000 ALTER TABLE `User` DISABLE KEYS */;
+INSERT INTO `User` VALUES (1,'sysPass Admin',1,'katsys',NULL,'$2y$10$71ksMpgrcE62xQ7jOqEXTeMbuTvNOxbKjT6BtxrzixQJVKPd2LfBK','def50200bdfa341d53aac1e8a871121847f288253a0f12bb1b81dcc5c16758d26266ddd020203e9dbcbee6bf2b03a80dc0f57367b36418524165616940321843448490761b1861ba9b8ff9796df464600703cf6f748cdaa5d7c8ff0677995f727a','def10000def50200ceee27562c3b10ec724f6c552f4e844eb1258db855e7cfd16e86185e9679b5d4ffdf9d25082206c3e138abbdcbdb4c5b7f458eb61d51632bd270eefcc8ee505c1e05c9e082568e3abf4fd503f5a058dd4c3965ae97183cef8596ba188e1f165dafd92df9055ed3f3a11257bfea2ee6ffc7a2f3ee74ab33b6cd811f9643717fad0cdce346aeed1b5ecae8a11dc3dcf4ffe1d7f1196feaf9c6b6c62123ca9cac2469b5c5fe2b2b12696d5f5a03fc3ea6fbda310eb4d4f6f45f142b1d257497e9def5963d925d20e1a1200eaa2c030781af37d50269b0dbb6bb7df594c984d7b680d1afc2e221957cc50a0c8381e55896cada9c0e2119cd972f',NULL,NULL,2,1,'2021-08-24 09:24:00',NULL,1629796997,1,0,0,0,'',0,0,0,NULL);
+/*!40000 ALTER TABLE `User` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `UserGroup`
+--
+
+DROP TABLE IF EXISTS `UserGroup`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `UserGroup` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `description` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `UserGroup`
+--
+
+LOCK TABLES `UserGroup` WRITE;
+/*!40000 ALTER TABLE `UserGroup` DISABLE KEYS */;
+INSERT INTO `UserGroup` VALUES (1,'Admins','sysPass Admins');
+/*!40000 ALTER TABLE `UserGroup` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `UserPassRecover`
+--
+
+DROP TABLE IF EXISTS `UserPassRecover`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `UserPassRecover` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `userId` smallint(5) unsigned NOT NULL,
+  `hash` varbinary(255) NOT NULL,
+  `date` int(10) unsigned NOT NULL,
+  `used` tinyint(1) DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `idx_UserPassRecover_01` (`userId`,`date`),
+  CONSTRAINT `fk_UserPassRecover_userId` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `UserPassRecover`
+--
+
+LOCK TABLES `UserPassRecover` WRITE;
+/*!40000 ALTER TABLE `UserPassRecover` DISABLE KEYS */;
+/*!40000 ALTER TABLE `UserPassRecover` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `UserProfile`
+--
+
+DROP TABLE IF EXISTS `UserProfile`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `UserProfile` (
+  `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `profile` blob NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `UserProfile`
+--
+
+LOCK TABLES `UserProfile` WRITE;
+/*!40000 ALTER TABLE `UserProfile` DISABLE KEYS */;
+INSERT INTO `UserProfile` VALUES (1,'Admin','O:24:\"SP\\DataModel\\ProfileData\":30:{s:10:\"\0*\0accView\";b:0;s:14:\"\0*\0accViewPass\";b:0;s:17:\"\0*\0accViewHistory\";b:0;s:10:\"\0*\0accEdit\";b:0;s:14:\"\0*\0accEditPass\";b:0;s:9:\"\0*\0accAdd\";b:0;s:12:\"\0*\0accDelete\";b:0;s:11:\"\0*\0accFiles\";b:0;s:13:\"\0*\0accPrivate\";b:0;s:18:\"\0*\0accPrivateGroup\";b:0;s:16:\"\0*\0accPermission\";b:0;s:17:\"\0*\0accPublicLinks\";b:0;s:18:\"\0*\0accGlobalSearch\";b:0;s:16:\"\0*\0configGeneral\";b:0;s:19:\"\0*\0configEncryption\";b:0;s:15:\"\0*\0configBackup\";b:0;s:15:\"\0*\0configImport\";b:0;s:11:\"\0*\0mgmUsers\";b:0;s:12:\"\0*\0mgmGroups\";b:0;s:14:\"\0*\0mgmProfiles\";b:0;s:16:\"\0*\0mgmCategories\";b:0;s:15:\"\0*\0mgmCustomers\";b:0;s:15:\"\0*\0mgmApiTokens\";b:0;s:17:\"\0*\0mgmPublicLinks\";b:0;s:14:\"\0*\0mgmAccounts\";b:0;s:10:\"\0*\0mgmTags\";b:0;s:11:\"\0*\0mgmFiles\";b:0;s:17:\"\0*\0mgmItemsPreset\";b:0;s:6:\"\0*\0evl\";b:0;s:18:\"\0*\0mgmCustomFields\";b:0;}');
+/*!40000 ALTER TABLE `UserProfile` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `UserToUserGroup`
+--
+
+DROP TABLE IF EXISTS `UserToUserGroup`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `UserToUserGroup` (
+  `userId` smallint(5) unsigned NOT NULL,
+  `userGroupId` smallint(5) unsigned NOT NULL,
+  UNIQUE KEY `uk_UserToUserGroup_01` (`userId`,`userGroupId`),
+  KEY `idx_UserToUserGroup_01` (`userId`),
+  KEY `fk_UserToGroup_userGroupId` (`userGroupId`),
+  CONSTRAINT `fk_UserToGroup_userGroupId` FOREIGN KEY (`userGroupId`) REFERENCES `UserGroup` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_UserToGroup_userId` FOREIGN KEY (`userId`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `UserToUserGroup`
+--
+
+LOCK TABLES `UserToUserGroup` WRITE;
+/*!40000 ALTER TABLE `UserToUserGroup` DISABLE KEYS */;
+/*!40000 ALTER TABLE `UserToUserGroup` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Temporary table structure for view `account_data_v`
+--
+
+DROP TABLE IF EXISTS `account_data_v`;
+/*!50001 DROP VIEW IF EXISTS `account_data_v`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `account_data_v` (
+  `id` tinyint NOT NULL,
+  `name` tinyint NOT NULL,
+  `categoryId` tinyint NOT NULL,
+  `userId` tinyint NOT NULL,
+  `clientId` tinyint NOT NULL,
+  `userGroupId` tinyint NOT NULL,
+  `userEditId` tinyint NOT NULL,
+  `login` tinyint NOT NULL,
+  `url` tinyint NOT NULL,
+  `notes` tinyint NOT NULL,
+  `countView` tinyint NOT NULL,
+  `countDecrypt` tinyint NOT NULL,
+  `dateAdd` tinyint NOT NULL,
+  `dateEdit` tinyint NOT NULL,
+  `otherUserEdit` tinyint NOT NULL,
+  `otherUserGroupEdit` tinyint NOT NULL,
+  `isPrivate` tinyint NOT NULL,
+  `isPrivateGroup` tinyint NOT NULL,
+  `passDate` tinyint NOT NULL,
+  `passDateChange` tinyint NOT NULL,
+  `parentId` tinyint NOT NULL,
+  `categoryName` tinyint NOT NULL,
+  `clientName` tinyint NOT NULL,
+  `userGroupName` tinyint NOT NULL,
+  `userName` tinyint NOT NULL,
+  `userLogin` tinyint NOT NULL,
+  `userEditName` tinyint NOT NULL,
+  `userEditLogin` tinyint NOT NULL,
+  `publicLinkHash` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary table structure for view `account_search_v`
+--
+
+DROP TABLE IF EXISTS `account_search_v`;
+/*!50001 DROP VIEW IF EXISTS `account_search_v`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `account_search_v` (
+  `id` tinyint NOT NULL,
+  `clientId` tinyint NOT NULL,
+  `categoryId` tinyint NOT NULL,
+  `name` tinyint NOT NULL,
+  `login` tinyint NOT NULL,
+  `url` tinyint NOT NULL,
+  `notes` tinyint NOT NULL,
+  `userId` tinyint NOT NULL,
+  `userGroupId` tinyint NOT NULL,
+  `otherUserEdit` tinyint NOT NULL,
+  `otherUserGroupEdit` tinyint NOT NULL,
+  `isPrivate` tinyint NOT NULL,
+  `isPrivateGroup` tinyint NOT NULL,
+  `passDate` tinyint NOT NULL,
+  `passDateChange` tinyint NOT NULL,
+  `parentId` tinyint NOT NULL,
+  `countView` tinyint NOT NULL,
+  `dateEdit` tinyint NOT NULL,
+  `userName` tinyint NOT NULL,
+  `userLogin` tinyint NOT NULL,
+  `userGroupName` tinyint NOT NULL,
+  `categoryName` tinyint NOT NULL,
+  `clientName` tinyint NOT NULL,
+  `num_files` tinyint NOT NULL,
+  `publicLinkHash` tinyint NOT NULL,
+  `publicLinkDateExpire` tinyint NOT NULL,
+  `publicLinkTotalCountViews` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Temporary table structure for view `host_summary`
 --
 
@@ -2268,6 +3210,44 @@ SET character_set_client = utf8;
 SET character_set_client = @saved_cs_client;
 
 --
+-- Final view structure for view `account_data_v`
+--
+
+/*!50001 DROP TABLE IF EXISTS `account_data_v`*/;
+/*!50001 DROP VIEW IF EXISTS `account_data_v`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb3 */;
+/*!50001 SET character_set_results     = utf8mb3 */;
+/*!50001 SET collation_connection      = utf8mb3_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `account_data_v` AS select `Account`.`id` AS `id`,`Account`.`name` AS `name`,`Account`.`categoryId` AS `categoryId`,`Account`.`userId` AS `userId`,`Account`.`clientId` AS `clientId`,`Account`.`userGroupId` AS `userGroupId`,`Account`.`userEditId` AS `userEditId`,`Account`.`login` AS `login`,`Account`.`url` AS `url`,`Account`.`notes` AS `notes`,`Account`.`countView` AS `countView`,`Account`.`countDecrypt` AS `countDecrypt`,`Account`.`dateAdd` AS `dateAdd`,`Account`.`dateEdit` AS `dateEdit`,conv(`Account`.`otherUserEdit`,10,2) AS `otherUserEdit`,conv(`Account`.`otherUserGroupEdit`,10,2) AS `otherUserGroupEdit`,conv(`Account`.`isPrivate`,10,2) AS `isPrivate`,conv(`Account`.`isPrivateGroup`,10,2) AS `isPrivateGroup`,`Account`.`passDate` AS `passDate`,`Account`.`passDateChange` AS `passDateChange`,`Account`.`parentId` AS `parentId`,`Category`.`name` AS `categoryName`,`Client`.`name` AS `clientName`,`ug`.`name` AS `userGroupName`,`u1`.`name` AS `userName`,`u1`.`login` AS `userLogin`,`u2`.`name` AS `userEditName`,`u2`.`login` AS `userEditLogin`,`PublicLink`.`hash` AS `publicLinkHash` from ((((((`Account` left join `Category` on(`Account`.`categoryId` = `Category`.`id`)) join `UserGroup` `ug` on(`Account`.`userGroupId` = `ug`.`id`)) join `User` `u1` on(`Account`.`userId` = `u1`.`id`)) join `User` `u2` on(`Account`.`userEditId` = `u2`.`id`)) left join `Client` on(`Account`.`clientId` = `Client`.`id`)) left join `PublicLink` on(`Account`.`id` = `PublicLink`.`itemId`)) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `account_search_v`
+--
+
+/*!50001 DROP TABLE IF EXISTS `account_search_v`*/;
+/*!50001 DROP VIEW IF EXISTS `account_search_v`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb3 */;
+/*!50001 SET character_set_results     = utf8mb3 */;
+/*!50001 SET collation_connection      = utf8mb3_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `account_search_v` AS select `Account`.`id` AS `id`,`Account`.`clientId` AS `clientId`,`Account`.`categoryId` AS `categoryId`,`Account`.`name` AS `name`,`Account`.`login` AS `login`,`Account`.`url` AS `url`,`Account`.`notes` AS `notes`,`Account`.`userId` AS `userId`,`Account`.`userGroupId` AS `userGroupId`,`Account`.`otherUserEdit` AS `otherUserEdit`,`Account`.`otherUserGroupEdit` AS `otherUserGroupEdit`,`Account`.`isPrivate` AS `isPrivate`,`Account`.`isPrivateGroup` AS `isPrivateGroup`,`Account`.`passDate` AS `passDate`,`Account`.`passDateChange` AS `passDateChange`,`Account`.`parentId` AS `parentId`,`Account`.`countView` AS `countView`,`Account`.`dateEdit` AS `dateEdit`,`User`.`name` AS `userName`,`User`.`login` AS `userLogin`,`UserGroup`.`name` AS `userGroupName`,`Category`.`name` AS `categoryName`,`Client`.`name` AS `clientName`,(select count(0) from `AccountFile` where `AccountFile`.`accountId` = `Account`.`id`) AS `num_files`,`PublicLink`.`hash` AS `publicLinkHash`,`PublicLink`.`dateExpire` AS `publicLinkDateExpire`,`PublicLink`.`totalCountViews` AS `publicLinkTotalCountViews` from (((((`Account` join `Category` on(`Account`.`categoryId` = `Category`.`id`)) join `Client` on(`Client`.`id` = `Account`.`clientId`)) join `User` on(`Account`.`userId` = `User`.`id`)) join `UserGroup` on(`Account`.`userGroupId` = `UserGroup`.`id`)) left join `PublicLink` on(`Account`.`id` = `PublicLink`.`itemId`)) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
 -- Final view structure for view `host_summary`
 --
 
@@ -4176,4 +5156,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-08-24  9:19:00
+-- Dump completed on 2021-08-24  9:32:46
