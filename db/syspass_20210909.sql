@@ -58,7 +58,7 @@ CREATE TABLE `Account` (
   CONSTRAINT `fk_Account_userEditId` FOREIGN KEY (`userEditId`) REFERENCES `User` (`id`),
   CONSTRAINT `fk_Account_userGroupId` FOREIGN KEY (`userGroupId`) REFERENCES `UserGroup` (`id`),
   CONSTRAINT `fk_Account_userId` FOREIGN KEY (`userId`) REFERENCES `User` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,6 +67,7 @@ CREATE TABLE `Account` (
 
 LOCK TABLES `Account` WRITE;
 /*!40000 ALTER TABLE `Account` DISABLE KEYS */;
+INSERT INTO `Account` VALUES (1,1,1,1,2,'KAT\'s Gmail Official #Main',1,'pt.kreasialamteknologi','gmail.com','def50200b5da4f490ab48c30139eb5d1228f7deb73bdb47aa8b67497ed0bf36f5d3e9852d1f365fea71d98278c8901372114a2128a3b11655071063b9f09c45159bb85af2ca63a4538053af9640d5586aa9e0870d6493b5d02eb3d317bb04d91e4','def10000def50200ec043f9dc8bb3450c6e716fb3ce269e6da66527ff0b325a51d0735269a8002391d45fdbafc1356136062ec82a89c7bb8cca001af31b823bc1a35a410f78fb7d37d08eede8cb33196dc0c1c2df06f45309b8f606bf44dc024fe9908af5502335813db4271e1074fab025e90ead24fbc3b51cbf6a565897818863d1760f03ca716ad72a4365de90b51df30c261482b68140fa8c5a301f9b151ca9a38daefd980528c397636726ba160153711318353d5cd8b2ecdcef1edba16f7875c7aa0f7f7a03cf3f922719e78cf17b34e1f75023c2de7b31549dc5498a6b9e14f93b1180b2fcc97eebdfd9aff1dae599098ff05e27a87fc961c4af6af3e','',4,0,'2021-09-07 10:08:45','2021-09-07 10:20:25',0,0,1,0,1631009325,NULL,0),(2,1,1,1,1,'KAT\'s Website WP Admin',2,'dmursito','kreasialamteknologi.com/backend','def50200c1df6f879abc924388fcde3d8f04b831e61298af47e81908b143d9f79022afc4f41b606080b6e4b31ffdc404a2f58adc594396db8f15640193f3ef9aea4df4f035a8d0aeee00a88a704e836553d4817dad08303aa95935b74a8e','def10000def50200288cfd7b0e8445e68acb9719e6fb27da42603e746c745c875e346603dbe33001ad026c39d1be4e5a3cc3bff0349b5360213cd222e313d40b0897f19c631806b694fba2a6438b1766003e3227e0da0af9404e9f5dea417e32cf056c5c95705e7f24993739318d988eeb4718a38f122d9b884ba041e2c912802f84c9c7ca4ac01ef91556b8953b0ee732e66f038e0f76274541923163e375e6110511493ff0ad6a0f5aff06cb31d71f8aabb629e5944ebc7965d2b61aabbd8349b8078d585f0a0387af8b630ce46c5a6d1bbf445858eadc7c32691a99047bafceda1d9af5bf613067d9c305f8abf32c114b710678a335d1354e4a124a987d16','',1,0,'2021-09-07 10:18:47',NULL,0,0,0,0,1631009927,NULL,0);
 /*!40000 ALTER TABLE `Account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -149,7 +150,7 @@ CREATE TABLE `AccountHistory` (
   CONSTRAINT `fk_AccountHistory_userEditId` FOREIGN KEY (`userEditId`) REFERENCES `User` (`id`),
   CONSTRAINT `fk_AccountHistory_userGroupId` FOREIGN KEY (`userGroupId`) REFERENCES `UserGroup` (`id`),
   CONSTRAINT `fk_AccountHistory_userId` FOREIGN KEY (`userId`) REFERENCES `User` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -158,6 +159,7 @@ CREATE TABLE `AccountHistory` (
 
 LOCK TABLES `AccountHistory` WRITE;
 /*!40000 ALTER TABLE `AccountHistory` DISABLE KEYS */;
+INSERT INTO `AccountHistory` VALUES (1,1,1,1,1,2,'pt.kreasialamteknologi@gmail.com',1,'','gmail.com','def50200b5da4f490ab48c30139eb5d1228f7deb73bdb47aa8b67497ed0bf36f5d3e9852d1f365fea71d98278c8901372114a2128a3b11655071063b9f09c45159bb85af2ca63a4538053af9640d5586aa9e0870d6493b5d02eb3d317bb04d91e4','def10000def50200ec043f9dc8bb3450c6e716fb3ce269e6da66527ff0b325a51d0735269a8002391d45fdbafc1356136062ec82a89c7bb8cca001af31b823bc1a35a410f78fb7d37d08eede8cb33196dc0c1c2df06f45309b8f606bf44dc024fe9908af5502335813db4271e1074fab025e90ead24fbc3b51cbf6a565897818863d1760f03ca716ad72a4365de90b51df30c261482b68140fa8c5a301f9b151ca9a38daefd980528c397636726ba160153711318353d5cd8b2ecdcef1edba16f7875c7aa0f7f7a03cf3f922719e78cf17b34e1f75023c2de7b31549dc5498a6b9e14f93b1180b2fcc97eebdfd9aff1dae599098ff05e27a87fc961c4af6af3e','',2,0,'2021-09-07 10:08:45',NULL,1,0,'$2y$10$JuA5gSGX4hDk/hqNOPTWceKoTeaXvfljdfSTsWUm8DrqIMZ6Kv0f.',0,0,NULL,NULL,NULL,1,0);
 /*!40000 ALTER TABLE `AccountHistory` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -240,6 +242,7 @@ CREATE TABLE `AccountToUser` (
 
 LOCK TABLES `AccountToUser` WRITE;
 /*!40000 ALTER TABLE `AccountToUser` DISABLE KEYS */;
+INSERT INTO `AccountToUser` VALUES (1,1,1);
 /*!40000 ALTER TABLE `AccountToUser` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -318,7 +321,7 @@ CREATE TABLE `Category` (
   `hash` varbinary(40) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_Category_01` (`hash`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -327,6 +330,7 @@ CREATE TABLE `Category` (
 
 LOCK TABLES `Category` WRITE;
 /*!40000 ALTER TABLE `Category` DISABLE KEYS */;
+INSERT INTO `Category` VALUES (1,'Email','','0c83f57c786a0b4a39efab23731c7ebc'),(2,'Website','','d1befa03c79ca0b84ecc488dea96bc68');
 /*!40000 ALTER TABLE `Category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -345,7 +349,7 @@ CREATE TABLE `Client` (
   `isGlobal` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `uk_Client_01` (`hash`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -354,6 +358,7 @@ CREATE TABLE `Client` (
 
 LOCK TABLES `Client` WRITE;
 /*!40000 ALTER TABLE `Client` DISABLE KEYS */;
+INSERT INTO `Client` VALUES (1,'Wordpress','1870a829d9bc69abf500eca6f00241fe','Group for all KAT Wordpress',0),(2,'Gmail','de01c1d48db6c321c637457113ed80d5','',0);
 /*!40000 ALTER TABLE `Client` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -707,7 +712,7 @@ CREATE TABLE `Track` (
   PRIMARY KEY (`id`),
   KEY `idx_Track_01` (`userId`),
   KEY `idx_Track_02` (`time`,`ipv4`,`ipv6`,`source`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -716,7 +721,7 @@ CREATE TABLE `Track` (
 
 LOCK TABLES `Track` WRITE;
 /*!40000 ALTER TABLE `Track` DISABLE KEYS */;
-INSERT INTO `Track` VALUES (1,NULL,'SP\\Services\\Auth\\LoginService',1629797009,NULL,'ÊPÔ6',NULL),(2,NULL,'SP\\Services\\Auth\\LoginService',1629797019,NULL,'ÊPÔ6',NULL),(3,NULL,'SP\\Services\\Auth\\LoginService',1629797025,NULL,'ÊPÔ6',NULL);
+INSERT INTO `Track` VALUES (1,NULL,'SP\\Services\\Auth\\LoginService',1629797009,NULL,'ÊPÔ6',NULL),(2,NULL,'SP\\Services\\Auth\\LoginService',1629797019,NULL,'ÊPÔ6',NULL),(3,NULL,'SP\\Services\\Auth\\LoginService',1629797025,NULL,'ÊPÔ6',NULL),(4,NULL,'SP\\Services\\Auth\\LoginService',1630812755,NULL,'$Jx¾',NULL),(5,NULL,'SP\\Services\\Auth\\LoginService',1630812768,NULL,'$Jx¾',NULL),(6,NULL,'SP\\Services\\Auth\\LoginService',1630812784,NULL,'$Jx¾',NULL),(7,NULL,'SP\\Services\\Auth\\LoginService',1630812797,NULL,'$Jx¾',NULL),(8,NULL,'SP\\Services\\Auth\\LoginService',1630812814,NULL,'$Jx¾',NULL),(9,NULL,'SP\\Services\\Auth\\LoginService',1630812826,NULL,'$Jx¾',NULL),(10,NULL,'SP\\Services\\Auth\\LoginService',1630812837,NULL,'$Jx¾',NULL),(11,NULL,'SP\\Services\\Auth\\LoginService',1630812855,NULL,'$Jx¾',NULL),(12,NULL,'SP\\Services\\Auth\\LoginService',1630812875,NULL,'$Jx¾',NULL),(13,NULL,'SP\\Services\\Auth\\LoginService',1630812887,NULL,'$Jx¾',NULL),(14,NULL,'SP\\Services\\Auth\\LoginService',1630813160,NULL,'$Jx¾',NULL),(15,NULL,'SP\\Services\\Auth\\LoginService',1630813179,NULL,'$Jx¾',NULL),(16,NULL,'SP\\Services\\Auth\\LoginService',1630813198,NULL,'$Jx¾',NULL),(17,NULL,'SP\\Services\\Auth\\LoginService',1631072992,NULL,'•q‰',NULL),(18,NULL,'SP\\Services\\Auth\\LoginService',1631073017,NULL,'•q‰',NULL),(19,NULL,'SP\\Services\\Auth\\LoginService',1631073041,NULL,'•q‰',NULL),(20,NULL,'SP\\Services\\Auth\\LoginService',1631073066,NULL,'•q‰',NULL),(21,NULL,'SP\\Services\\Auth\\LoginService',1631073091,NULL,'•q‰',NULL),(22,NULL,'SP\\Services\\Auth\\LoginService',1631073382,NULL,'•q‰',NULL),(23,NULL,'SP\\Services\\Auth\\LoginService',1631073391,NULL,'•q‰',NULL),(24,NULL,'SP\\Services\\Auth\\LoginService',1631073401,NULL,'•q‰',NULL),(25,NULL,'SP\\Services\\Auth\\LoginService',1631073426,NULL,'•q‰',NULL),(26,NULL,'SP\\Services\\Auth\\LoginService',1631073475,NULL,'•q‰',NULL),(27,NULL,'SP\\Services\\Auth\\LoginService',1631073498,NULL,'•q‰',NULL),(28,NULL,'SP\\Services\\Auth\\LoginService',1631073518,NULL,'•q‰',NULL),(29,NULL,'SP\\Services\\Auth\\LoginService',1631073789,NULL,'•q‰',NULL),(30,NULL,'SP\\Services\\Auth\\LoginService',1631073811,NULL,'$U.&',NULL),(31,NULL,'SP\\Services\\Auth\\LoginService',1631073831,NULL,'$U.&',NULL),(32,NULL,'SP\\Services\\Auth\\LoginService',1631073861,NULL,'$U.&',NULL);
 /*!40000 ALTER TABLE `Track` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -759,7 +764,7 @@ CREATE TABLE `User` (
   KEY `fk_User_userProfileId` (`userProfileId`),
   CONSTRAINT `fk_User_userGroupId` FOREIGN KEY (`userGroupId`) REFERENCES `UserGroup` (`id`),
   CONSTRAINT `fk_User_userProfileId` FOREIGN KEY (`userProfileId`) REFERENCES `UserProfile` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -768,7 +773,7 @@ CREATE TABLE `User` (
 
 LOCK TABLES `User` WRITE;
 /*!40000 ALTER TABLE `User` DISABLE KEYS */;
-INSERT INTO `User` VALUES (1,'sysPass Admin',1,'katsys',NULL,'$2y$10$71ksMpgrcE62xQ7jOqEXTeMbuTvNOxbKjT6BtxrzixQJVKPd2LfBK','def50200bdfa341d53aac1e8a871121847f288253a0f12bb1b81dcc5c16758d26266ddd020203e9dbcbee6bf2b03a80dc0f57367b36418524165616940321843448490761b1861ba9b8ff9796df464600703cf6f748cdaa5d7c8ff0677995f727a','def10000def50200ceee27562c3b10ec724f6c552f4e844eb1258db855e7cfd16e86185e9679b5d4ffdf9d25082206c3e138abbdcbdb4c5b7f458eb61d51632bd270eefcc8ee505c1e05c9e082568e3abf4fd503f5a058dd4c3965ae97183cef8596ba188e1f165dafd92df9055ed3f3a11257bfea2ee6ffc7a2f3ee74ab33b6cd811f9643717fad0cdce346aeed1b5ecae8a11dc3dcf4ffe1d7f1196feaf9c6b6c62123ca9cac2469b5c5fe2b2b12696d5f5a03fc3ea6fbda310eb4d4f6f45f142b1d257497e9def5963d925d20e1a1200eaa2c030781af37d50269b0dbb6bb7df594c984d7b680d1afc2e221957cc50a0c8381e55896cada9c0e2119cd972f',NULL,NULL,2,1,'2021-08-24 09:24:00',NULL,1629796997,1,0,0,0,'',0,0,0,NULL);
+INSERT INTO `User` VALUES (1,'sysPass Admin',1,'katsys',NULL,'$2y$10$mDsqrWkQfJAb7tvAZhj7ge6fpXyq1y4BpN.h720m/n3.B1aZoy9M2','def502008502e660f9eb577e3dcf769f3a2ab29bc5d2cb3763f6fbf4ae57f8763c548f517e3e01b984bb6f04ab2e31284bc61d1af52e3f99849494a147b70714301a8cc3c091b7dc0be1a8b05f36caa4f7dba3cb5270c02fc2f25387a924b6445f','def10000def50200b9a98e3dd08234f1e08cdf6155454db61dd231dc6c08a20dbd5afaeba60f684cfe3119e0e9e9748c4ed8b61621c151de47f92fc322456bb78411e7895b875f525322d51a673f8158182751570c8fe4b921223f0d3861ac85277cf132cb3b1fdc5c86dedf58c1f75dd8e443e7ee0bf59d4f105021b9f27c40bd86b67dab1b408ccbe65f60686c9db29bbff949da8d374f19ee290b50a7b725ed21c97568b5c7c7344550a2e56b4f00da07f096b6f5fa10c18b2c60236e39e090dac64156b69440cfa0a49fecbfcba2e53ea544eb1504dbc667e91c59122c4a9162aa7325e2e8ca30c74d1dcec26d9f087667f92ab3c01335029fc504737548',NULL,NULL,18,1,'2021-09-08 04:27:28','2021-09-07 10:09:16',1631073836,1,0,0,0,'',0,0,0,NULL),(2,'DevOps',1,'devops','','$2y$10$XvOJ8zWvrQvnbWsbvdv8EeVBo2X3VEzo92OOcHh0dvBvHee8ivcYu',NULL,NULL,'devops@kreasialamteknologi.com','',0,1,NULL,NULL,0,0,1,0,0,'',0,0,0,NULL);
 /*!40000 ALTER TABLE `User` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -784,7 +789,7 @@ CREATE TABLE `UserGroup` (
   `name` varchar(50) COLLATE utf8mb3_unicode_ci NOT NULL,
   `description` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -793,7 +798,7 @@ CREATE TABLE `UserGroup` (
 
 LOCK TABLES `UserGroup` WRITE;
 /*!40000 ALTER TABLE `UserGroup` DISABLE KEYS */;
-INSERT INTO `UserGroup` VALUES (1,'Admins','sysPass Admins');
+INSERT INTO `UserGroup` VALUES (1,'Admins','sysPass Admins'),(2,'Wordpress','Group for all KAT Wordpress');
 /*!40000 ALTER TABLE `UserGroup` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -874,6 +879,7 @@ CREATE TABLE `UserToUserGroup` (
 
 LOCK TABLES `UserToUserGroup` WRITE;
 /*!40000 ALTER TABLE `UserToUserGroup` DISABLE KEYS */;
+INSERT INTO `UserToUserGroup` VALUES (1,2);
 /*!40000 ALTER TABLE `UserToUserGroup` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -5156,4 +5162,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-08-24  9:32:46
+-- Dump completed on 2021-09-09  1:55:28
